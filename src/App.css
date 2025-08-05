@@ -1,0 +1,26 @@
+
+@media screen and (min-width: 1400px) {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 1450px !important;
+}
+}
+
+
+.main-content{
+  min-height:80dvh
+}
+.scale-animate{
+  transition: .3s all ease-in-out;
+}
+.scale-animate:hover{
+  transform: scale(1.1);
+}
+
+.inner-container{
+  max-width: 1240px !important;
+  margin: auto;
+}
+
+.no-overflow{
+  overflow:hidden;
+}
