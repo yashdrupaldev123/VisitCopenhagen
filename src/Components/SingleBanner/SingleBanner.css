@@ -29,4 +29,7 @@
     margin-bottom: 0px;
     max-width: 70%;
   }
+  img{
+    width: 100%;
+  }
 }

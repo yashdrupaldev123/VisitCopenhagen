@@ -6,3 +6,12 @@
         }
        
 }
+
+.admin-sidebar{
+    .site-logo{
+        padding: 0 !important;
+        img{
+        margin-bottom: 2rem;
+        }
+    }
+}

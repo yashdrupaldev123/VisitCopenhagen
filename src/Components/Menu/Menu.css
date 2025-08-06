@@ -69,3 +69,50 @@
 .menu-hover:hover{
   color:var(--primary-color);
 }
+
+
+
+/* Admin menu */
+
+.admin-sidebar{
+  .menu{
+    margin-bottom: 1.2rem;
+  }
+  .menu ul{
+    padding:0;
+    flex-direction: column;
+    row-gap: .5rem;
+  }
+
+  .menu:has(.menu-toggle-btn){
+    ul{
+    display:none;
+    }
+  }
+
+.menu:has(.menu-toggle-btn.open){
+  ul{
+    display:flex;
+  }
+}
+
+p.menu-toggle-btn {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: .3rem;
+    &.open{
+      svg{
+        transform: rotate(0deg) !important;
+      }
+    }
+    svg{
+      height: 1rem;
+      width: 1rem;
+      transform: rotate(-180deg);
+      }
+    }
+
+  }

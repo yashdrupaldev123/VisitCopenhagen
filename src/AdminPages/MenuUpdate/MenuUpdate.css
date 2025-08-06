@@ -1,0 +1,189 @@
+.menu-update-page{
+        width:100%;
+}
+
+.menu-update-and-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  >form,>div{
+        flex:1 1;
+  }
+}
+
+
+/* Page Title */
+.page-title {
+  font-size: 2.5rem; /* Larger title */
+  font-weight: 800; /* Extra bold */
+  color: #334155; /* Dark gray */
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Form Container */
+form {
+  background-color: #ffffff;
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+  width: 100%;
+  max-width: 550px; /* Slightly wider form */
+  border: 1px solid #e2e8f0;
+}
+
+/* Form Group (for labels and inputs) */
+.form-group {
+  margin-bottom: 22px;
+}
+
+/* Labels */
+.form-group label {
+  display: block;
+  color: #4a5568; /* Gray */
+  font-size: 0.95rem; /* Slightly larger font */
+  font-weight: 600; /* Semi-bold */
+  margin-bottom: 10px;
+}
+
+/* Text Inputs and Textarea */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 14px 18px; /* More padding */
+  border: 1px solid #cbd5e0; /* Light gray border */
+  border-radius: 10px; /* More rounded corners */
+  font-size: 1.05rem; /* Slightly larger text */
+  color: #2d3748; /* Darker gray text */
+  box-sizing: border-box;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #3b82f6; /* Blue border on focus */
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.4); /* Blue glow on focus */
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px; /* Taller textarea */
+}
+
+/* Fieldset for Menu Links */
+.menu-links-fieldset {
+  border: 1px solid #cbd5e0;
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 25px;
+  background-color: #f8fafc; /* Slightly different background for fieldset */
+}
+
+.menu-links-fieldset legend {
+  font-size: 1.25rem; /* Larger legend */
+  font-weight: 700; /* Bold */
+  color: #334155;
+  padding: 0 12px;
+  margin-left: -12px;
+}
+
+.menu-link-item {
+  display: flex;
+  gap: 18px; /* More space between url and title inputs */
+  margin-bottom: 18px;
+}
+
+.menu-link-item:last-child {
+  margin-bottom: 0;
+}
+
+.menu-link-item input {
+  flex: 1;
+}
+
+/* Select Fields */
+.form-group select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%234A5568" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 18px center; /* Adjust position */
+  background-size: 20px; /* Slightly larger arrow */
+  padding-right: 45px; /* Space for custom arrow */
+}
+
+/* Submit Button */
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 16px 30px; /* Larger button */
+  background: linear-gradient(
+    to right,
+    #4c8bf5,
+    #6a5acd
+  ); /* More vibrant gradient */
+  color: #ffffff;
+  font-size: 1.25rem; /* Larger font */
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(76, 139, 245, 0.4); /* More prominent shadow */
+}
+
+.submit-button:hover {
+  background: linear-gradient(
+    to right,
+    #3b73d1,
+    #5242b5
+  ); /* Darker gradient on hover */
+  box-shadow: 0 12px 25px rgba(76, 139, 245, 0.5);
+  transform: translateY(-3px); /* More pronounced lift */
+}
+
+.submit-button:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 15px rgba(76, 139, 245, 0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+  }
+  form {
+    padding: 25px;
+  }
+  .menu-link-item {
+    flex-direction: column; /* Stack url and title vertically on smaller screens */
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.75rem;
+    margin-bottom: 20px;
+  }
+  form {
+    padding: 20px;
+  }
+  .form-group label {
+    font-size: 0.875rem;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 12px 15px;
+    font-size: 0.95rem;
+  }
+  .submit-button {
+    padding: 14px 20px;
+    font-size: 1.1rem;
+  }
+}

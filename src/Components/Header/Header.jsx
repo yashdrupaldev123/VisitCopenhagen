@@ -2,32 +2,37 @@ import React, { useEffect, useRef, useState } from 'react'
 import './Header.css'
 import Logo from '../Logo/Logo'
 import Menu from '../Menu/Menu'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Button from '../Button/Button'
 import SearchBox from '../SearchBox/SearchBox'
+import './HeaderAdmin.css'
 // import { Slide } from 'react-awesome-reveal'
 const Header = () => {
+        let location = useLocation();
         let headerRef = useRef();
-        let [searchBoxOpen,setSearchBoxOpen] = useState(false);
-        useEffect(()=>{
-                window.addEventListener('scroll',()=>{
-                        if(scrollY>50){
+        let [searchBoxOpen, setSearchBoxOpen] = useState(false);
+        useEffect(() => {
+                window.addEventListener('scroll', () => {
+                        if (scrollY > 50) {
+
                                 headerRef.current.classList.add("fixed");
-                        }else{
+                        } else {
+
                                 headerRef.current.classList.remove("fixed");
                                 headerRef.current.classList.add("no-fixed");
+
                         }
                 })
         })
-        const closeSearch = (close = false) =>{
-                if(close){
-                      setSearchBoxOpen(false);
-                      document.body.classList.remove("no-overflow");  
+        const closeSearch = (close = false) => {
+                if (close) {
+                        setSearchBoxOpen(false);
+                        document.body.classList.remove("no-overflow");
                 }
         }
         const searchFunction = () => {
                 setSearchBoxOpen(true);
-                document.body.classList.add("no-overflow");  
+                document.body.classList.add("no-overflow");
         }
         const HeaderTopMenuLinks = [
                 {
@@ -42,6 +47,10 @@ const Header = () => {
                 {
                         url: '/copenhagen-card',
                         title: 'Copenhagen Card'
+                },
+                {
+                        url: '/admin/dashboard',
+                        title: 'Admin Dashboard'
                 },
         ];
 
@@ -78,8 +87,8 @@ const Header = () => {
         `;
 
         return (
-                        <>
-                        { searchBoxOpen && <SearchBox closeFun={closeSearch}/>}
+                <>
+                        {searchBoxOpen && <SearchBox closeFun={closeSearch} />}
                         <header ref={headerRef}>
                                 <div className="container">
                                         <div className="row">
@@ -100,24 +109,23 @@ const Header = () => {
                                                                                         <Link to="/total-trips" title="total-trip-link">
                                                                                                 <p>My Trip <span><svg xmlns="http://www.w3.org/2000/svg" width="20" viewBox="0 0 27 24" version="1.1"><path d="M24.1734375,1.734375 C21.1253906,-0.796875 16.4162109,-0.416666667 13.4999939,2.515625 C10.5837891,-0.416666667 5.87460938,-0.802083333 2.8265625,1.734375 C-1.1390625,5.03125 -0.558984375,10.40625 2.26757813,13.2552083 L11.5171875,22.5625 C12.0445313,23.09375 12.7511719,23.390625 13.4999939,23.390625 C14.2541016,23.390625 14.9554688,23.0989583 15.4828125,22.5677083 L24.7324219,13.2604167 C27.5537109,10.4114583 28.1443359,5.03645833 24.1734375,1.734375 Z M22.9289063,11.5 L13.6792969,20.8072917 C13.5527344,20.9322917 13.4472656,20.9322917 13.3207031,20.8072917 L4.07109375,11.5 C2.14628906,9.5625 1.75605469,5.89583333 4.45605469,3.65104167 C6.50742188,1.94791667 9.67148438,2.203125 11.6542969,4.19791667 L13.5,6.05729167 L15.3457031,4.19791667 C17.3390625,2.19270833 20.503125,1.94791667 22.5439453,3.64583333 C25.2386719,5.890625 24.8378906,9.578125 22.9289063,11.5 L22.9289063,11.5 Z" fill="white" fill-rule="nonzero" stroke="none" stroke-width="1"></path></svg></span></p>
                                                                                         </Link>
-                                                                                        
+
                                                                                 </div>
                                                                                 <div className="menu">
                                                                                         <div>
-                                                                                                <Button ctaFunction={searchFunction} className="search-btn" icon={ searchIconSvg }/>
+                                                                                                <Button ctaFunction={searchFunction} className="search-btn" icon={searchIconSvg} />
                                                                                         </div>
                                                                                 </div>
                                                                         </div>
                                                                 </div>
 
-
                                                         </div>
                                                 </div>
+
                                         </div>
-                                        
                                 </div>
                         </header>
-                        </>
+                </>
 
         )
 }
