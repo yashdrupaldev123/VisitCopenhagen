@@ -1,5 +1,6 @@
-import React from 'react'
-import Banner from '../../Components/Banner/Banner'
+import React, { lazy, Suspense } from 'react'
+
+const Banner = lazy(() => import('../../Components/Banner/Banner'));
 import image1 from "../../assets/images/homepage_banner_1.jpg";
 import image2 from "../../assets/images/homepage_banner_2.jpg";
 import TourInterestSection from '../../Components/TourInterestSection/TourInterestSection';
@@ -19,14 +20,26 @@ const Homepage = () => {
     <div className="homepage-content">
 
       {/* Banner Section  */}
-      <Banner className="homepage-banner" mainTitle="Get to know Copenhagen, the capital of Denmark" caption="Mark Tanggaard & Astrid Maria Rasmussen"
-        subTitle="Your guide to the perfect Copenhagen experience" descriptionTexts={descriptionTexts} image1={image1} image2={image2} />
+
+      <Suspense fallback={<div className="skeleton-banner">
+        <div className="container">
+          <div className='images'>
+            <div className="skeleton-image" />
+            <div className="skeleton-image" />
+          </div>
+        </div>
+      </div>}>
+
+        <Banner className="homepage-banner" mainTitle="Get to know Copenhagen, the capital of Denmark" caption="Mark Tanggaard & Astrid Maria Rasmussen"
+          subTitle="Your guide to the perfect Copenhagen experience" descriptionTexts={descriptionTexts} image1={image1} image2={image2} />
+
+      </Suspense>
 
       {/* Tour interest Section  */}
       <TourInterestSection />
 
       {/* Single Banner Section */}
-      <SingleBanner image={singleBannerImg} title="CopenPay" subTitle="Copenhagen attractions reward conscious actions. Join the movement."/>
+      <SingleBanner image={singleBannerImg} title="CopenPay" subTitle="Copenhagen attractions reward conscious actions. Join the movement." />
 
 
       {/* Start Exploring Section */}
@@ -36,7 +49,7 @@ const Homepage = () => {
       <CopenhagenSeasonSection />
 
       {/* Feature section */}
-      <FeatureSection/>
+      <FeatureSection />
 
     </div>
   )

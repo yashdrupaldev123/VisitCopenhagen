@@ -11,16 +11,16 @@ const Banner = ({ className, image1, image2, mainTitle, caption, subTitle, descr
                                         {(image1 && image2) ?
                                                 <div className="images">
                                                         <div>
-                                                                <img src={image1} />
+                                                                <img src={image1} alt={mainTitle} loading='eager'/>
                                                         </div>
                                                         <div>
-                                                                <img src={image2} />
+                                                                <img src={image2} alt={mainTitle} loading='eager' />
                                                         </div>
                                                 </div>
                                                 :
                                                 <div className="banner-image">
                                                         <div>
-                                                                <img src={image1} />
+                                                                <img src={image1} alt={mainTitle} loading='eager' />
                                                         </div>
                                                 </div>
                                         }
