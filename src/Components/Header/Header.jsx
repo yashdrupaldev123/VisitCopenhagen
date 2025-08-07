@@ -36,7 +36,7 @@ const Header = () => {
                                 setHeaderMenuBottom(dataObj.data.menuLinks);
                         } 
                         catch(error){
-                                console.log(error.message);
+                                setHeaderBottomError(error.message);
                         }
                 }
                 getHeaderTopMenuLinks("Main Navigation Top")
@@ -72,33 +72,28 @@ const Header = () => {
                 document.body.classList.add("no-overflow");
         }
 
-         const HeaderTopMenuFallback = [
+
+        const HeaderTopMenuFallback = [
                 {
                         url: '/',
-                        title: 'Menu loading...',
-                }
+                        title: 'The official guide to Copenhagen',
+                        active: true
+                },
+                {
+                        url: '/beyond-copenhagen',
+                        title: 'Beyond Copenhagen'
+                },
+                {
+                        url: '/copenhagen-card',
+                        title: 'Copenhagen Card'
+                },
+                {
+                        url: '/admin/dashboard',
+                        title: 'Admin Dashboard'
+                },
         ];
-        // const HeaderTopMenuLinks = [
-        //         {
-        //                 url: '/',
-        //                 title: 'The official guide to Copenhagen',
-        //                 active: true
-        //         },
-        //         {
-        //                 url: '/beyond-copenhagen',
-        //                 title: 'Beyond Copenhagen'
-        //         },
-        //         {
-        //                 url: '/copenhagen-card',
-        //                 title: 'Copenhagen Card'
-        //         },
-        //         {
-        //                 url: '/admin/dashboard',
-        //                 title: 'Admin Dashboard'
-        //         },
-        // ];
 
-        const HeaderBottomMenuLinks = [
+        const HeaderBottomMenuFallback = [
                 {
                         url: '/see-and-do',
                         title: 'See & do'
@@ -148,7 +143,9 @@ const Header = () => {
                                                         <div className="header-bottom">
                                                                 <div className="row">
                                                                         <div className="col-sm-10">
-                                                                                {headerMenuBottom && <Menu menulinks={headerMenuBottom} className="header-bottom-menu" />}
+                                                                                {headerBottomError ? <Menu menulinks={HeaderBottomMenuFallback} className="header-bottom-menu" />
+                                                                                : <Menu menulinks={headerMenuBottom} className="header-bottom-menu" />
+                                                                                }
                                                                         </div>
                                                                         <div className="col-sm-2 header-bottom-right">
                                                                                 <div className="total-trip">
