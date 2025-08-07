@@ -14,7 +14,7 @@ const SearchResultPage = () => {
     <div className="results-page">
       <div className="container">
        <div className="search-header">
-        <h1>Search Results</h1>
+        <h1 className='page-title'>Search Results</h1>
         <p className="search-query">Showing results for: <span>"{query}"</span></p>
       </div>
 

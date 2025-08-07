@@ -30,9 +30,9 @@ const CopenhagenSeasonSection = () => {
                                 text: "Winter",
                                 imageSrc: winterImg,
                                 link: "/",
-                                id: 3
+                                id: 4
                         }
-                ]
+                ];
   return (
    <ContentSectionWrapper title="Copenhagen is buzzing all year around" description="Copenhagen is blessed with four very distinct seasons each with their own special flavour. The Copenhagen weather plays a big part in shaping these seasons, from the vibrant summer vibe to the colourful autumn, cosy winter, and beautiful spring. Copenhagen is incredible no matter the time of year." >
         {seasonCardData && <div className="season-cards image-cards inner-container">

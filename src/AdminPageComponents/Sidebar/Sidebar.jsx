@@ -2,6 +2,7 @@ import React from 'react'
 import Menu from '../../Components/Menu/Menu';
 import "./Sidebar.css"
 import Logo from '../../Components/Logo/Logo';
+import "./Sidebar_responsive.css"
 const Sidebar = () => {
         const accountMenu = {
                 menuTitle: "User Account",
@@ -12,7 +13,7 @@ const Sidebar = () => {
                                 title: 'My Account',
                         },
                         {
-                                url: './logout',
+                                url: '/',
                                 title: 'Logout'
                         },
                 ]

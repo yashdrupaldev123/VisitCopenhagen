@@ -32,7 +32,7 @@ const TourInterestSection = () => {
                         text: "I want to check out events",
                         imageSrc: choiceImage4,
                         link: "/",
-                        id: 3
+                        id: 4
                 }
         ]
 

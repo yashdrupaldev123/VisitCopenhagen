@@ -32,7 +32,7 @@ const StartExploringSection = () => {
                         <div className="explore-cards inner-container">
                                 {
                                         exploringData.map((item) => {
-                                                return <StartExploreCard image={item.image} title={item.title} description={item.description} />
+                                                return <StartExploreCard key={item.id} image={item.image} title={item.title} description={item.description} />
                                         })
                                 }
                         </div>

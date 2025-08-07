@@ -1,42 +1,138 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MenuPreview from '../MenuPreview/MenuPreview'
 import { useLoaderData } from 'react-router-dom'
+import { Suspense } from 'react';
 import './MenuUpdate.css'
+import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 
-const MenuUpdate = ({menuTitle}) => {
-        let menuData = useLoaderData();
-        
+const MenuUpdate = ({ menuTitle }) => {
+  let menuData = useLoaderData().data;
+  console.log(menuData)
+  let [menuLinks, setMenuLinks] = useState([{
+    title: '',
+    url: ''
+  }]);
+
+  let [menuLabel, setMenuLabel] = useState(menuData.menuLabel);
+
+  
+
+
+  useEffect(() => {
+
+    async function createMenuIfNotExist() {
+      if (menuData.length == 0) {
+        try {
+          let res = await axios.post("http://localhost:5000/api/admin/menu/add", {
+            menuKey: menuTitle,
+            menuLabel: menuTitle
+          });
+          console.log(res.data);
+        }
+        catch (error) {
+          console.log("Error while creating menu: " + error.message);
+        }
+      }
+      else {
+        if (menuData.menuLinks.length != 0) {
+          setMenuLinks(menuData.menuLinks);
+        }
+      }
+    }
+    createMenuIfNotExist();
+  }, [menuTitle, menuData])
+
+
+  const addLink = (e) => {
+    e.preventDefault()
+    setMenuLinks([...menuLinks, {
+      title: '',
+      url: ''
+    }])
+  }
+
+  const setLink = (index, key, value) => {
+    let updatedLinks = [...menuLinks];
+    updatedLinks[index][key] = value;
+
+    setMenuLinks(updatedLinks);
+  }
+  const deleteLink = (e, linkIndex) => {
+    e.preventDefault();
+    const updatedLinks = menuLinks.filter((_, index) => index !== linkIndex);
+    console.log(updatedLinks);
+    setMenuLinks(updatedLinks)
+  }
+  const menuUpdateNotification = () => {
+    toast.success('Menu Updated Successfully.', {
+  icon: '✅',
+});
+};
+
+  const submitHandler = async(e) => {
+    e.preventDefault()
+
+      let submittedMenuData = {
+      menuKey: menuTitle,
+      menuLabel: menuLabel,
+      menuLinks: menuLinks,
+    };
+        try{
+    let response = await axios.put('http://localhost:5000/api/admin/menu/edit',submittedMenuData);
+    if(response.data.status == "Success")
+        menuUpdateNotification();
+    }catch(error){
+      console.log("Error while updating menu: "+error.message)
+    }
+    }
+
+
+  
+
   return (
-
-   <div className="menu-update-page">
+    <Suspense fallback={<p className="text-gray-500">Loading cards...</p>}><br />
+      <div className="menu-update-page">
         <h2 className='page-title'>Add Link For {menuTitle} Menu</h2>
-
         <div className="menu-update-and-preview">
-      <form>
+          <form onSubmit={(e) => { submitHandler(e) }}>
+            <div className="form-group">
+              <label htmlFor="menuLabel">Menu Label</label>
+              <input type="text" id="menuLabel" name="menuLabel" onChange={(e) => { setMenuLabel(e.target.value) }} value={menuLabel} />
+            </div>
+            <fieldset className="menu-links-fieldset">
+              <legend>Menu Links</legend>
+              {
+                menuLinks.map((item, index) => {
+                  return <fieldset key={index}>
+                    <div className="menu-link-item">
+                      <div>
+                        <label htmlFor="title">Title</label>
+                      <input type="text" value={item.title} placeholder="Add Link Title" onChange={((e) => { setLink(index, 'title', e.target.value) })} />
+                      </div>
+                      <div>
+                        <label htmlFor="title">Url</label>
+                      <input type="text" value={item.url} placeholder="Add Link Url" onChange={((e) => { setLink(index, 'url', e.target.value) })} />
+                      </div>
+                    </div>
+                    { (menuLinks.length > 1) && <button className="delete-btn" onClick={(e) => { deleteLink(e, index) }}>Delete</button>}
+                    
+                  </fieldset>
+                })
+              }
+               <button className="add-link-button" onClick={(e) => { addLink(e) }}> + Add Link</button>
+            </fieldset>
 
-        <div className="form-group">
-        <label htmlFor="menuTitle">Menu Title</label>
-          <input type="text" id="menuTitle" name="menuTitle" value={menuTitle}/>
-        </div>
+           
+            <button type="submit" className="submit-button">Save</button>
 
-        <fieldset className="menu-links-fieldset">
-          <legend>Menu Links</legend>
-          <div className="menu-link-item">
-            <input type="text" name="menuLinkUrl1" placeholder="URL (e.g., /about)" />
-            <input type="text" name="menuLinkTitle1" placeholder="Title (e.g., About Us)" />
-          </div>
-          <div className="menu-link-item">
-            <input type="text" name="menuLinkUrl2" placeholder="URL (e.g., /contact)" />
-            <input type="text" name="menuLinkTitle2" placeholder="Title (e.g., Contact)" />
-          </div>
-          {/* You can add more .menu-link-item divs here for more links */}
-        </fieldset>
-
-        <button type="submit" className="submit-button">Save Configuration</button>
-      </form>
-        <MenuPreview menuTitle={menuTitle} menuData={menuData.data} />
+          </form>
+          <MenuPreview menuTitle={menuTitle} menuData={menuLinks} menuDataFromBackend ={menuData} />
+          <Toaster />
         </div>
       </div>
+    </Suspense>
+
   )
 }
 

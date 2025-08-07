@@ -15,8 +15,6 @@ const ImageTitleCard = ({ image, title, link }) => {
                         </div>
                         
                                 <img src={image} alt="image" />
-
-                        
                 </div>
         )
 }

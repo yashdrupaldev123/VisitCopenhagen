@@ -9,7 +9,17 @@ import AdminDashboard from './Pages/AdminDashboard/AdminDashboard'
 import UserAccountPage from './AdminPages/UserAccountPage/UserAccountPage';
 import MenuUpdate from './AdminPages/MenuUpdate/MenuUpdate';
 import axios from 'axios';
+import { ErrorBoundary } from 'react-error-boundary';
+
 const Routes = ({ children }) => {
+
+  const getMenuData = async(menuKey) =>{
+        const apiUrl = `http://localhost:5000/api/admin/menu?menuKey=${menuKey}`;
+        const response = await axios.get(apiUrl);
+        return response.data;
+  }
+
+
   let routes = createBrowserRouter([
     {
       path: '/',
@@ -36,24 +46,27 @@ const Routes = ({ children }) => {
               index: true,
               element: <UserAccountPage />,
             },
-            {
+              {
               path: 'dashboard',
-              element: <AdminDashboard />,
+              element: <UserAccountPage />,
             },
             {
               path: 'main-navigation-top/edit',
-              element: <MenuUpdate menuTitle="Main Navigation Top" />,
+              
+              element: <ErrorBoundary
+      FallbackComponent={ErrorPage}>
+        <MenuUpdate menuTitle="Main Navigation Top" /></ErrorBoundary>,
               loader: async () => {
-                let response = await axios.get(`http://localhost:5000/api/admin/menu?menuTitle=My+Account`);
-                return response.data;
+                let menuGetResponse = getMenuData("Main Navigation Top");
+                return menuGetResponse;
               },
             },
             {
               path: 'main-navigation-bottom/edit',
               element: <MenuUpdate menuTitle="Main Navigation Bottom" />,
               loader: async () => {
-                let response = await axios.get(`http://localhost:5000/api/admin/menu?menuTitle=Main+Navigation+Bottom`);
-                return response.data;
+                let menuGetResponse = getMenuData("Main Navigation Bottom");
+                return menuGetResponse;
               },
             },
           ]

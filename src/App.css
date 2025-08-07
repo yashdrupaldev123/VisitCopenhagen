@@ -9,7 +9,11 @@
     max-width: 1450px !important;
   }
 }
-
+.page-title {
+    font-size: 1.8rem;
+    margin: 1rem 0;
+    font-weight: 700;
+}
 .main-content {
   min-height: 80dvh;
 }
@@ -69,3 +73,25 @@
 }
 
 }
+
+/* WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07d3f75d;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #0e78dbb2;
+  border-radius: 10px;
+  border: 2px solid #f0f0f0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+

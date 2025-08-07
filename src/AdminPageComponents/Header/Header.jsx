@@ -1,9 +1,10 @@
 import React from 'react'
+import Logo from '../../Components/Logo/Logo'
 
 const Header = () => {
   return (
     <header className='admin-header'>
-      <h3>Admin Header</h3>
+      <Logo/>
     </header>
   )
 }

@@ -36,7 +36,7 @@ const Banner = ({ className, image1, image2, mainTitle, caption, subTitle, descr
                                                 <div className='banner-texts'>
                                                         {
                                                                 descriptionTexts.map((item, index) => {
-                                                                        return parse(item);
+                                                                        return <div key={index}>{parse(item)}</div>
                                                                 })
                                                         }
 

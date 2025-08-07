@@ -1,5 +1,16 @@
 .menu-update-page{
         width:100%;
+        
+/* Form Container */
+form {
+  background-color: #ffffff;
+  padding: 35px;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
+  width: 100%;
+  max-width: 550px; /* Slightly wider form */
+  border: 1px solid #e2e8f0;
+}
 }
 
 .menu-update-and-preview {
@@ -11,39 +22,27 @@
   }
 }
 
-
-/* Page Title */
-.page-title {
-  font-size: 2.5rem; /* Larger title */
-  font-weight: 800; /* Extra bold */
-  color: #334155; /* Dark gray */
-  margin-bottom: 30px;
-  text-align: center;
+.menu-links-fieldset fieldset {
+    border: 1px solid skyblue;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    animation-name: fromBottom;
+    animation-duration: 1s;
+}
+@keyframes fromBottom {
+  from{
+    transform: translateY(20px);
+  }
+  to{
+    transform: translateY(0);
+  }
 }
 
-/* Form Container */
-form {
-  background-color: #ffffff;
-  padding: 35px;
-  border-radius: 15px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15); /* More pronounced shadow */
-  width: 100%;
-  max-width: 550px; /* Slightly wider form */
-  border: 1px solid #e2e8f0;
-}
+
 
 /* Form Group (for labels and inputs) */
 .form-group {
   margin-bottom: 22px;
-}
-
-/* Labels */
-.form-group label {
-  display: block;
-  color: #4a5568; /* Gray */
-  font-size: 0.95rem; /* Slightly larger font */
-  font-weight: 600; /* Semi-bold */
-  margin-bottom: 10px;
 }
 
 /* Text Inputs and Textarea */
@@ -70,18 +69,17 @@ form {
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.4); /* Blue glow on focus */
 }
 
-.form-group textarea {
-  resize: vertical;
-  min-height: 120px; /* Taller textarea */
-}
+
 
 /* Fieldset for Menu Links */
 .menu-links-fieldset {
-  border: 1px solid #cbd5e0;
-  border-radius: 10px;
-  padding: 25px;
-  margin-bottom: 25px;
-  background-color: #f8fafc; /* Slightly different background for fieldset */
+    border: 1px solid #cbd5e0;
+    border-radius: 10px;
+    padding: 25px;
+    margin-bottom: 25px;
+    background-color: #f8fafc;
+    height: 46dvh;
+    overflow: auto;
 }
 
 .menu-links-fieldset legend {
@@ -92,35 +90,49 @@ form {
   margin-left: -12px;
 }
 
-.menu-link-item {
+button.add-link-button {
+    padding: .5rem .8rem;
+    border: none;
+    border-radius: .5rem;
+    background: #4343eb;
+    color: #fff;
+    font-weight: 600;
+    transition: .5s all ease-in-out;
+    margin-top: .5rem;
+    &:hover{
+      opacity:.7;
+    }
+}
+ label{
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+.menu-link-item{
   display: flex;
-  gap: 18px; /* More space between url and title inputs */
-  margin-bottom: 18px;
+  flex-direction: column;
+  gap:1rem;
+  margin-bottom: 1rem;
+ 
+  input{
+    padding: .5rem;
+    border:1px solid rgba(0, 191, 255, 0.349);
+    font-weight: 500;
+  }
+}
+.menu-link-item >div {
+  display: flex;
+  flex-direction: column;
+  gap:5px;
 }
 
-.menu-link-item:last-child {
-  margin-bottom: 0;
-}
 
-.menu-link-item input {
-  flex: 1;
-}
-
-/* Select Fields */
-.form-group select {
-  appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="%234A5568" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 18px center; /* Adjust position */
-  background-size: 20px; /* Slightly larger arrow */
-  padding-right: 45px; /* Space for custom arrow */
-}
 
 /* Submit Button */
 .submit-button {
   display: block;
   width: 100%;
-  padding: 16px 30px; /* Larger button */
+  padding: 10px 30px; /* Larger button */
   background: linear-gradient(
     to right,
     #4c8bf5,
@@ -151,39 +163,15 @@ form {
   box-shadow: 0 5px 15px rgba(76, 139, 245, 0.3);
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .page-title {
-    font-size: 2rem;
-  }
-  form {
-    padding: 25px;
-  }
-  .menu-link-item {
-    flex-direction: column; /* Stack url and title vertically on smaller screens */
-    gap: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .page-title {
-    font-size: 1.75rem;
-    margin-bottom: 20px;
-  }
-  form {
-    padding: 20px;
-  }
-  .form-group label {
-    font-size: 0.875rem;
-  }
-  .form-group input,
-  .form-group textarea,
-  .form-group select {
-    padding: 12px 15px;
-    font-size: 0.95rem;
-  }
-  .submit-button {
-    padding: 14px 20px;
-    font-size: 1.1rem;
-  }
+.delete-btn{
+      padding: .5rem .8rem;
+    border: none;
+    border-radius: .5rem;
+    background: #fa521f;
+    color: #fff;
+    font-weight: 600;
+    transition: .5s all ease-in-out;
+    &:hover{
+      opacity:.7;
+    }
 }

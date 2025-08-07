@@ -34,7 +34,7 @@ const FeatureSection = () => {
                <div className='feature-list inner-container'>
                 {
                         featureCardData.map(item =>{
-                                return <FeatureCard image={item.image} title={item.title} caption={item.caption} location={item.location}/>
+                                return <FeatureCard key={item.id} image={item.image} title={item.title} caption={item.caption} location={item.location}/>
                         })
                 }
                 </div>

@@ -6,11 +6,47 @@ import { Link, useLocation } from 'react-router-dom'
 import Button from '../Button/Button'
 import SearchBox from '../SearchBox/SearchBox'
 import './HeaderAdmin.css'
+import axios from 'axios'
 // import { Slide } from 'react-awesome-reveal'
 const Header = () => {
-        let location = useLocation();
+        // let location = useLocation();
         let headerRef = useRef();
         let [searchBoxOpen, setSearchBoxOpen] = useState(false);
+        let [headerMenuTop,setHeaderMenuTop] = useState([]);
+        let [headerMenuBottom,setHeaderMenuBottom] = useState([]);
+
+
+        useEffect(()=>{
+
+                async function getHeaderTopMenuLinks(menuKey){
+                        try{
+                                let response = await axios.get(`http://localhost:5000/api/admin/menu?menuKey=${menuKey}`);
+                                let dataObj = response.data;
+                                setHeaderMenuTop(dataObj.data.menuLinks);
+                        } 
+                        catch(error){
+                                console.log(error.message);
+                        }
+                }
+                async function getHeaderBottomMenuLinks(menuKey){
+                        try{
+                                let response = await axios.get(`http://localhost:5000/api/admin/menu?menuKey=${menuKey}`);
+                                let dataObj = response.data;
+                                setHeaderMenuBottom(dataObj.data.menuLinks);
+                        } 
+                        catch(error){
+                                console.log(error.message);
+                        }
+                }
+                getHeaderTopMenuLinks("Main Navigation Top")
+                getHeaderBottomMenuLinks("Main Navigation Bottom");
+        },[])
+
+        useEffect(()=>{
+                console.log(headerMenuBottom)
+        },[headerMenuBottom]);
+
+
         useEffect(() => {
                 window.addEventListener('scroll', () => {
                         if (scrollY > 50) {
@@ -34,25 +70,25 @@ const Header = () => {
                 setSearchBoxOpen(true);
                 document.body.classList.add("no-overflow");
         }
-        const HeaderTopMenuLinks = [
-                {
-                        url: '/',
-                        title: 'The official guide to Copenhagen',
-                        active: true
-                },
-                {
-                        url: '/beyond-copenhagen',
-                        title: 'Beyond Copenhagen'
-                },
-                {
-                        url: '/copenhagen-card',
-                        title: 'Copenhagen Card'
-                },
-                {
-                        url: '/admin/dashboard',
-                        title: 'Admin Dashboard'
-                },
-        ];
+        // const HeaderTopMenuLinks = [
+        //         {
+        //                 url: '/',
+        //                 title: 'The official guide to Copenhagen',
+        //                 active: true
+        //         },
+        //         {
+        //                 url: '/beyond-copenhagen',
+        //                 title: 'Beyond Copenhagen'
+        //         },
+        //         {
+        //                 url: '/copenhagen-card',
+        //                 title: 'Copenhagen Card'
+        //         },
+        //         {
+        //                 url: '/admin/dashboard',
+        //                 title: 'Admin Dashboard'
+        //         },
+        // ];
 
         const HeaderBottomMenuLinks = [
                 {
@@ -97,12 +133,12 @@ const Header = () => {
                                                 </div>
                                                 <div className="col-sm-10 header-right">
                                                         <div className="header-top">
-                                                                <Menu menulinks={HeaderTopMenuLinks} className="header-top-menu" />
+                                                                {headerMenuTop && <Menu menulinks={headerMenuTop} className="header-top-menu" />}
                                                         </div>
                                                         <div className="header-bottom">
                                                                 <div className="row">
                                                                         <div className="col-sm-10">
-                                                                                <Menu menulinks={HeaderBottomMenuLinks} className="header-bottom-menu" />
+                                                                                {headerMenuBottom && <Menu menulinks={headerMenuBottom} className="header-bottom-menu" />}
                                                                         </div>
                                                                         <div className="col-sm-2 header-bottom-right">
                                                                                 <div className="total-trip">
