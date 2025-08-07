@@ -71,6 +71,13 @@ const Header = () => {
                 setSearchBoxOpen(true);
                 document.body.classList.add("no-overflow");
         }
+
+         const HeaderTopMenuFallback = [
+                {
+                        url: '/',
+                        title: 'Menu loading...',
+                }
+        ];
         // const HeaderTopMenuLinks = [
         //         {
         //                 url: '/',
@@ -134,7 +141,7 @@ const Header = () => {
                                                 </div>
                                                 <div className="col-sm-10 header-right">
                                                         <div className="header-top">
-                                                                {headerTopError ? <p>Error: {headerTopError}</p> : 
+                                                                {headerTopError ? <Menu menulinks={HeaderTopMenuFallback} className="header-top-menu" /> : 
                                                                 <Menu menulinks={headerMenuTop} className="header-top-menu" />
                                                                 }
                                                         </div>
