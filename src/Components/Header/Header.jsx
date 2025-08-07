@@ -14,10 +14,10 @@ const Header = () => {
         let [searchBoxOpen, setSearchBoxOpen] = useState(false);
         let [headerMenuTop,setHeaderMenuTop] = useState([]);
         let [headerMenuBottom,setHeaderMenuBottom] = useState([]);
-
+        let [headerTopError, setHeaderTopError] = useState("");
+        let [headerBottomError, setHeaderBottomError] = useState("");
 
         useEffect(()=>{
-
                 async function getHeaderTopMenuLinks(menuKey){
                         try{
                                 let response = await axios.get(`http://localhost:5000/api/admin/menu?menuKey=${menuKey}`);
@@ -26,6 +26,7 @@ const Header = () => {
                         } 
                         catch(error){
                                 console.log(error.message);
+                                setHeaderTopError(error.message);
                         }
                 }
                 async function getHeaderBottomMenuLinks(menuKey){
@@ -133,7 +134,9 @@ const Header = () => {
                                                 </div>
                                                 <div className="col-sm-10 header-right">
                                                         <div className="header-top">
-                                                                {headerMenuTop && <Menu menulinks={headerMenuTop} className="header-top-menu" />}
+                                                                {headerTopError ? <p>Error: {headerTopError}</p> : 
+                                                                <Menu menulinks={headerMenuTop} className="header-top-menu" />
+                                                                }
                                                         </div>
                                                         <div className="header-bottom">
                                                                 <div className="row">
