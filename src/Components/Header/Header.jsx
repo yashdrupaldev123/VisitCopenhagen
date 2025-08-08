@@ -17,10 +17,10 @@ const Header = () => {
 
 
         useEffect(()=>{
-
+                console.log(import.meta.env.VITE_BACKEND_URL);
                 async function getHeaderTopMenuLinks(menuKey){
                         try{
-                                let response = await axios.get(`http://localhost:5000/api/admin/menu?menuKey=${menuKey}`);
+                                let response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/menu?menuKey=${menuKey}`);
                                 let dataObj = response.data;
                                 setHeaderMenuTop(dataObj.data.menuLinks);
                         } 
@@ -30,7 +30,7 @@ const Header = () => {
                 }
                 async function getHeaderBottomMenuLinks(menuKey){
                         try{
-                                let response = await axios.get(`http://localhost:5000/api/admin/menu?menuKey=${menuKey}`);
+                                let response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/menu?menuKey=${menuKey}`);
                                 let dataObj = response.data;
                                 setHeaderMenuBottom(dataObj.data.menuLinks);
                         } 
