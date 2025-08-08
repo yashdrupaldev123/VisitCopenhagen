@@ -73,7 +73,6 @@ const Header = () => {
                 document.body.classList.add("no-overflow");
         }
 
-
         const HeaderTopMenuFallback = [
                 {
                         url: '/',
@@ -137,15 +136,19 @@ const Header = () => {
                                                 </div>
                                                 <div className="col-sm-10 header-right">
                                                         <div className="header-top">
-                                                                {headerTopError ? <Menu menulinks={HeaderTopMenuFallback} className="header-top-menu" /> : 
-                                                                <Menu menulinks={headerMenuTop} className="header-top-menu" />
+
+                                                                { 
+                                                                        (headerTopError == "" || headerTopError != "") ? <Menu menulinks={HeaderTopMenuFallback} className="header-top-menu" />
+                                                                        : <Menu menulinks={headerMenuTop} className="header-top-menu" />
+                                                                
                                                                 }
                                                         </div>
                                                         <div className="header-bottom">
                                                                 <div className="row">
                                                                         <div className="col-sm-10">
-                                                                                {headerBottomError ? <Menu menulinks={HeaderBottomMenuFallback} className="header-bottom-menu" />
-                                                                                : <Menu menulinks={headerMenuBottom} className="header-bottom-menu" />
+                                                                                {
+                                                                               (headerBottomError == "" || headerBottomError != "") ? <Menu menulinks={HeaderBottomMenuFallback} className="header-bottom-menu" />
+                                                                        : <Menu menulinks={headerMenuBottom} className="header-bottom-menu" />
                                                                                 }
                                                                         </div>
                                                                         <div className="col-sm-2 header-bottom-right">
