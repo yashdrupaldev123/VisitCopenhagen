@@ -14,10 +14,11 @@ const Header = () => {
         let [searchBoxOpen, setSearchBoxOpen] = useState(false);
         let [headerMenuTop,setHeaderMenuTop] = useState([]);
         let [headerMenuBottom,setHeaderMenuBottom] = useState([]);
-
+        let [headerTopError, setHeaderTopError] = useState("");
+        let [headerBottomError, setHeaderBottomError] = useState("");
 
         useEffect(()=>{
-                console.log(import.meta.env.VITE_BACKEND_URL);
+
                 async function getHeaderTopMenuLinks(menuKey){
                         try{
                                 let response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/menu?menuKey=${menuKey}`);
@@ -26,6 +27,7 @@ const Header = () => {
                         } 
                         catch(error){
                                 console.log(error.message);
+                                setHeaderTopError(error.message);
                         }
                 }
                 async function getHeaderBottomMenuLinks(menuKey){
@@ -35,7 +37,7 @@ const Header = () => {
                                 setHeaderMenuBottom(dataObj.data.menuLinks);
                         } 
                         catch(error){
-                                console.log(error.message);
+                                setHeaderBottomError(error.message);
                         }
                 }
                 getHeaderTopMenuLinks("Main Navigation Top")
@@ -70,27 +72,29 @@ const Header = () => {
                 setSearchBoxOpen(true);
                 document.body.classList.add("no-overflow");
         }
-        // const HeaderTopMenuLinks = [
-        //         {
-        //                 url: '/',
-        //                 title: 'The official guide to Copenhagen',
-        //                 active: true
-        //         },
-        //         {
-        //                 url: '/beyond-copenhagen',
-        //                 title: 'Beyond Copenhagen'
-        //         },
-        //         {
-        //                 url: '/copenhagen-card',
-        //                 title: 'Copenhagen Card'
-        //         },
-        //         {
-        //                 url: '/admin/dashboard',
-        //                 title: 'Admin Dashboard'
-        //         },
-        // ];
 
-        const HeaderBottomMenuLinks = [
+
+        const HeaderTopMenuFallback = [
+                {
+                        url: '/',
+                        title: 'The official guide to Copenhagen',
+                        active: true
+                },
+                {
+                        url: '/beyond-copenhagen',
+                        title: 'Beyond Copenhagen'
+                },
+                {
+                        url: '/copenhagen-card',
+                        title: 'Copenhagen Card'
+                },
+                {
+                        url: '/admin/dashboard',
+                        title: 'Admin Dashboard'
+                },
+        ];
+
+        const HeaderBottomMenuFallback = [
                 {
                         url: '/see-and-do',
                         title: 'See & do'
@@ -133,12 +137,16 @@ const Header = () => {
                                                 </div>
                                                 <div className="col-sm-10 header-right">
                                                         <div className="header-top">
-                                                                {headerMenuTop && <Menu menulinks={headerMenuTop} className="header-top-menu" />}
+                                                                {headerTopError ? <Menu menulinks={HeaderTopMenuFallback} className="header-top-menu" /> : 
+                                                                <Menu menulinks={headerMenuTop} className="header-top-menu" />
+                                                                }
                                                         </div>
                                                         <div className="header-bottom">
                                                                 <div className="row">
                                                                         <div className="col-sm-10">
-                                                                                {headerMenuBottom && <Menu menulinks={headerMenuBottom} className="header-bottom-menu" />}
+                                                                                {headerBottomError ? <Menu menulinks={HeaderBottomMenuFallback} className="header-bottom-menu" />
+                                                                                : <Menu menulinks={headerMenuBottom} className="header-bottom-menu" />
+                                                                                }
                                                                         </div>
                                                                         <div className="col-sm-2 header-bottom-right">
                                                                                 <div className="total-trip">

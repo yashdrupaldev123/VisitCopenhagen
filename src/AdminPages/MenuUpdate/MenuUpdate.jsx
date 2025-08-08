@@ -8,7 +8,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const MenuUpdate = ({ menuTitle }) => {
   let menuData = useLoaderData().data;
-  console.log(menuData)
+
   let [menuLinks, setMenuLinks] = useState([{
     title: '',
     url: ''
@@ -24,7 +24,7 @@ const MenuUpdate = ({ menuTitle }) => {
     async function createMenuIfNotExist() {
       if (menuData.length == 0) {
         try {
-          let res = await axios.post("http://localhost:5000/api/admin/menu/add", {
+          let res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/admin/menu/add`, {
             menuKey: menuTitle,
             menuLabel: menuTitle
           });
@@ -79,7 +79,7 @@ const MenuUpdate = ({ menuTitle }) => {
       menuLinks: menuLinks,
     };
         try{
-    let response = await axios.put('http://localhost:5000/api/admin/menu/edit',submittedMenuData);
+    let response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/admin/menu/edit`,submittedMenuData);
     if(response.data.status == "Success")
         menuUpdateNotification();
     }catch(error){

@@ -14,7 +14,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 const Routes = ({ children }) => {
 
   const getMenuData = async(menuKey) =>{
-        const apiUrl = `http://localhost:5000/api/admin/menu?menuKey=${menuKey}`;
+        const apiUrl = `${import.meta.env.BACKEND_URL}/api/admin/menu?menuKey=${menuKey}`;
         const response = await axios.get(apiUrl);
         return response.data;
   }
