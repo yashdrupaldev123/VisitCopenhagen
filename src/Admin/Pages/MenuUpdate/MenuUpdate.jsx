@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import MenuPreview from '../MenuPreview/MenuPreview'
 import { useLoaderData } from 'react-router-dom'
-import { Suspense } from 'react';
 import './MenuUpdate.css'
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
@@ -14,10 +13,11 @@ const MenuUpdate = ({ menuTitle }) => {
     url: ''
   }]);
 
+
+
+
+
   let [menuLabel, setMenuLabel] = useState(menuData.menuLabel);
-
-  
-
 
   useEffect(() => {
 
@@ -28,7 +28,8 @@ const MenuUpdate = ({ menuTitle }) => {
             menuKey: menuTitle,
             menuLabel: menuTitle
           });
-          console.log(res.data);
+          console.log(res.data)
+       
         }
         catch (error) {
           console.log("Error while creating menu: " + error.message);
@@ -61,7 +62,7 @@ const MenuUpdate = ({ menuTitle }) => {
   const deleteLink = (e, linkIndex) => {
     e.preventDefault();
     const updatedLinks = menuLinks.filter((_, index) => index !== linkIndex);
-    console.log(updatedLinks);
+ 
     setMenuLinks(updatedLinks)
   }
   const menuUpdateNotification = () => {
@@ -79,7 +80,7 @@ const MenuUpdate = ({ menuTitle }) => {
       menuLinks: menuLinks,
     };
         try{
-    let response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/admin/menu/edit`,submittedMenuData);
+    let response = await axios.put(`http://localhost:5000/api/admin/menu/edit`,submittedMenuData);
     if(response.data.status == "Success")
         menuUpdateNotification();
     }catch(error){
@@ -87,11 +88,8 @@ const MenuUpdate = ({ menuTitle }) => {
     }
     }
 
-
-  
-
   return (
-    <Suspense fallback={<p className="text-gray-500">Loading cards...</p>}><br />
+    <>
       <div className="menu-update-page">
         <h2 className='page-title'>Add Link For {menuTitle} Menu</h2>
         <div className="menu-update-and-preview">
@@ -131,7 +129,7 @@ const MenuUpdate = ({ menuTitle }) => {
           <Toaster />
         </div>
       </div>
-    </Suspense>
+    </>
 
   )
 }

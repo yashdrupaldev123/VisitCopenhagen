@@ -60,10 +60,12 @@
 }
 
 .admin-dashboard{
+  
 .admin-content {
     margin-top: 5rem;
     margin-left: 300px;
     padding: 45px;
+    min-height: 80dvh;
     .page-title{
       color: #071437;
       font-size: 1.75rem;

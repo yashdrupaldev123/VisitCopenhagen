@@ -1,20 +1,22 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import App from './App';
-import Login from './Pages/Login/Login';
+import Login from './Pages/AuthForm/AuthForm';
 import Homepage from './Pages/Homepage/Homepage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './Pages/ErrorPage/ErrorPage';
 import SearchResultPage from './Pages/SearchResultPage/SearchResultPage';
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard'
-import UserAccountPage from './AdminPages/UserAccountPage/UserAccountPage';
-import MenuUpdate from './AdminPages/MenuUpdate/MenuUpdate';
+import UserAccountPage from './Admin/Pages/UserAccountPage/UserAccountPage';
+
+import MenuUpdate from './Admin/Pages/MenuUpdate/MenuUpdate';
 import axios from 'axios';
 import { ErrorBoundary } from 'react-error-boundary';
+import AuthForm from './Pages/AuthForm/AuthForm';
 
 const Routes = ({ children }) => {
 
   const getMenuData = async(menuKey) =>{
-        const apiUrl = `${import.meta.env.BACKEND_URL}/api/admin/menu?menuKey=${menuKey}`;
+        const apiUrl = `http://localhost:5000/api/admin/menu?menuKey=${menuKey}`;
         const response = await axios.get(apiUrl);
         return response.data;
   }
@@ -32,7 +34,7 @@ const Routes = ({ children }) => {
         },
         {
           path: '/login',
-          element: <Login />,
+          element: <AuthForm />,
         },
         {
           path: '/search',
@@ -53,13 +55,13 @@ const Routes = ({ children }) => {
             {
               path: 'main-navigation-top/edit',
               
-              element: <ErrorBoundary
-      FallbackComponent={ErrorPage}>
-        <MenuUpdate menuTitle="Main Navigation Top" /></ErrorBoundary>,
+              element:
+        <MenuUpdate menuTitle="Main Navigation Top" />,
               loader: async () => {
                 let menuGetResponse = getMenuData("Main Navigation Top");
                 return menuGetResponse;
               },
+              errorElement: <ErrorPage/>
             },
             {
               path: 'main-navigation-bottom/edit',
@@ -68,6 +70,8 @@ const Routes = ({ children }) => {
                 let menuGetResponse = getMenuData("Main Navigation Bottom");
                 return menuGetResponse;
               },
+              
+              errorElement: <ErrorPage/>
             },
           ]
         }

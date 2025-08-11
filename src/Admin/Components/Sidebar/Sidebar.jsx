@@ -1,7 +1,7 @@
 import React from 'react'
-import Menu from '../../Components/Menu/Menu';
+import Menu from '../../../Components/Menu/Menu';
 import "./Sidebar.css"
-import Logo from '../../Components/Logo/Logo';
+import Logo from '../../../Components/Logo/Logo';
 import "./Sidebar_responsive.css"
 const Sidebar = () => {
         const accountMenu = {

@@ -1,13 +1,13 @@
 import React from 'react'
 import Header from '../../Components/Header/Header'
 import Footer from '../../Components/Footer/Footer'
-import { isRouteErrorResponse, useNavigate, useRouteError } from 'react-router-dom';
+import { isRouteErrorResponse, useLocation, useNavigate, useRouteError } from 'react-router-dom';
 import './ErrorPage.css'
 
 const ErrorPage = () => {
   const navigate = useNavigate();
     const error = useRouteError();
-
+  let location = useLocation();
      let title = "An error occurred";
   let message = "Something went wrong.";
 
@@ -26,7 +26,8 @@ const ErrorPage = () => {
   }
 
   return (
-    <>
+      (!location.pathname.includes('admin')) ?
+      <>
         <Header/>
         <div className="notfound-container">
       <div className="notfound-content">
@@ -38,7 +39,20 @@ const ErrorPage = () => {
       </div>
     </div>
       <Footer/>
-    </>
+      </>
+      : 
+      <>
+      <div className="notfound-container">
+      <div className="notfound-content">
+        <h2>{title}</h2>
+        <p className="error-message">{ message }</p>
+        <button className="notfound-button" onClick={() => navigate('/')}>
+          Go Home
+        </button>
+      </div>
+    </div>
+      </>
+
   )
 }
 

@@ -44,20 +44,17 @@ const Header = () => {
                 getHeaderBottomMenuLinks("Main Navigation Bottom");
         },[])
 
-        useEffect(()=>{
-                console.log(headerMenuBottom)
-        },[headerMenuBottom]);
-
 
         useEffect(() => {
                 window.addEventListener('scroll', () => {
                         if (scrollY > 50) {
-
+                                if(headerRef)
                                 headerRef.current.classList.add("fixed");
                         } else {
-
+                                if(headerRef){
                                 headerRef.current.classList.remove("fixed");
                                 headerRef.current.classList.add("no-fixed");
+                                }
 
                         }
                 })
