@@ -7,21 +7,21 @@ import ErrorPage from './Pages/ErrorPage/ErrorPage';
 import SearchResultPage from './Pages/SearchResultPage/SearchResultPage';
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard'
 import UserAccountPage from './Admin/Pages/UserAccountPage/UserAccountPage';
-
+ 
 import MenuUpdate from './Admin/Pages/MenuUpdate/MenuUpdate';
 import axios from 'axios';
 import { ErrorBoundary } from 'react-error-boundary';
 import AuthForm from './Pages/AuthForm/AuthForm';
-
+import BasicSiteSettings from './Admin/Pages/BasicSiteSettings/BasicSiteSettings';
+ 
 const Routes = ({ children }) => {
-
+ 
   const getMenuData = async(menuKey) =>{
         const apiUrl = `http://localhost:5000/api/admin/menu?menuKey=${menuKey}`;
         const response = await axios.get(apiUrl);
         return response.data;
   }
-
-
+  
   let routes = createBrowserRouter([
     {
       path: '/',
@@ -36,6 +36,7 @@ const Routes = ({ children }) => {
           path: '/login',
           element: <AuthForm />,
         },
+         
         {
           path: '/search',
           element: <SearchResultPage />,
@@ -52,6 +53,10 @@ const Routes = ({ children }) => {
               path: 'dashboard',
               element: <UserAccountPage />,
             },
+            {
+          path: 'basic-site-settings',
+          element: <BasicSiteSettings />,
+        },
             {
               path: 'main-navigation-top/edit',
               
@@ -84,5 +89,6 @@ const Routes = ({ children }) => {
     </RouterProvider>
   )
 }
-
+ 
 export default Routes
+ 
