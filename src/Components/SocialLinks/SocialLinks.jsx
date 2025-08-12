@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './SocialLinks.css'
 import { MdEmail } from "react-icons/md";
 import { FaFacebookF } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
+import { fetchSiteSettings } from '../../Utils/fetchSiteSettings.js';
 
 const SocialLinks = () => {
+  let [facebookUrl, setFacebookUrl] = useState("");
+  let [instagramUrl, setInstagramUrl] = useState("");
+  let [emailId, setEmailId] = useState("/");
+  let [youtubeUrl, setYoutubeUrl] = useState("");
+
+  
   return (
     <div className='social-links-wrapper'>
       <div className="container">

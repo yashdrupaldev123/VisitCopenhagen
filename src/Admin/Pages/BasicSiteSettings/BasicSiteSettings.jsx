@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 import "./BasicSiteSettings.css"
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { fetchSiteSettings } from "../../../Utils/fetchSiteSettings.js";
+import { basicSettingsContext } from '../../../App.jsx';
+/**
+ * BasicSiteSettings component allows admin to update basic site settings like site name, logo, email, and social media links.
+ */
 
 const BasicSiteSettings = () => {
+        const { siteSettings, setSiteSettings } = useContext(basicSettingsContext);
+
+
         const [logoPreview, setLogoPreview] = useState(null);
         const [savedSettings, setSavedSettings] = useState({
                 siteName: '',
@@ -31,24 +39,26 @@ const BasicSiteSettings = () => {
         useEffect(() => {
                 // Fetch existing settings if needed
                 const fetchSettings = async () => {
-                        try {
-                                const response = await axios.get('http://localhost:5000/api/getSettings?siteKey=VisitCopenhagen');
-                                if (response.data != null) {
-                                        let settingData = response.data.data;
-                                        setSavedSettings({
-                                                siteName: settingData.siteName || '',
-                                                siteLogo: settingData.siteLogo || null,
-                                                primaryEmailId: settingData.primaryEmailId || '',
-                                                facebookUrl: settingData.facebookUrl || '',
-                                                instagramUrl: settingData.instagramUrl || ''
-                                        });
-                                        setLogoPreview(settingData.siteLogoUrl || null);
-                                } else {
-                                        setLogoPreview(null);
-                                        console.error("Failed to fetch settings: " + response.message);
-                                }
-                        } catch (error) {
-                                console.error("Error fetching settings:", error);
+                        const { data, logoUrl, error } = await fetchSiteSettings();
+                        if(error) {
+                                toast.error("Error fetching settings: " + error.message);
+                        } else {
+                                reset({
+                                        siteName: data.siteName || '',
+                                        siteLogo: logoUrl || null,
+                                        primaryEmailId: data.primaryEmailId || '',
+                                        facebookUrl: data.facebookUrl || '',
+                                        instagramUrl: data.instagramUrl || ''
+                                });
+                                setLogoPreview(logoUrl || null);
+                                setSavedSettings({
+                                        siteName: data.siteName || '',
+                                        siteLogo: logoUrl || null,
+                                        primaryEmailId: data.primaryEmailId || '',
+                                        facebookUrl: data.facebookUrl || '',
+                                        instagramUrl: data.instagramUrl || ''
+                                });
+                               
                         }
                 };
 
@@ -64,7 +74,8 @@ const BasicSiteSettings = () => {
         }, [savedSettings, reset]);
 
         const onSubmit = async (data) => {
-                // Compare form data with savedSettings (ignore file for now)
+                console.log("Form data submitted:", data);
+                console.log("Form data submitted:", savedSettings);
                 const isUnchanged =
                         data.siteName === savedSettings.siteName &&
                         data.primaryEmailId === savedSettings.primaryEmailId &&
@@ -94,6 +105,14 @@ const BasicSiteSettings = () => {
                         });
                         if (settingsSaveResponse.data != null) {
                                 toast.success("Settings saved successfully!", { icon: '🎉' });
+                                 setSiteSettings({
+                                        siteName: data.siteName || '',
+                                        siteLogo: logoPreview || null,
+                                        primaryEmailId: data.primaryEmailId || '',
+                                        facebookUrl: data.facebookUrl || '',
+                                        instagramUrl: data.instagramUrl || ''
+                                });
+                                console.log("Settings saved in context:", settingsSaveResponse.data);
                         } else {
                                 toast.error("Failed to save settings.");
                         }
