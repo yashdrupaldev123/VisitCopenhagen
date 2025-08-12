@@ -1,13 +1,40 @@
-import React, { use, useEffect, useState } from "react";
+import React, { use, useEffect, useState, useRef } from "react";
 import { useForm } from "react-hook-form";
 import "./AuthForm.css";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function AuthForm() {
   const [isLogin, setIsLogin] = useState(true);
   const { register, handleSubmit, reset, formState: { errors }, watch } = useForm();
   const [registerError, setRegisterError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
   const password = watch("password", "");
+  const username = watch("username", "");
+  const debounceTimeout = useRef();
+  // Debounced username check
+  useEffect(() => {
+    if (!username || isLogin) {
+      setUsernameError("");
+      return;
+    }
+    if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+    debounceTimeout.current = setTimeout(async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user-check?username=${username}`);
+        if (res.data.user_data != null) {
+          setUsernameError("Username already exists. Choose a different username.");
+        } else {
+          setUsernameError("");
+        }
+      } catch (err) {
+        setUsernameError("");
+      }
+    }, 500);
+    return () => {
+      if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+    };
+  }, [username, isLogin]);
 
   // Form toggle function
   const toggleForm = () => {
@@ -20,25 +47,42 @@ export default function AuthForm() {
     if (isLogin) {
       console.log("Login data:", data);
     } else {
-      console.log(data.username);
+      console.log(data);
       try {
         data.password = String(data.password);
         if (data.confirm_password !== undefined) {
           data.confirm_password = String(data.confirm_password);
         }
         
-        let userCheckResponse = await axios.get(`http://localhost:5000/api/user-check?username=${data.username}`);
-
-        if (userCheckResponse.data.user_data != null) {
-          setRegisterError("User already exists. Please login.");
-          console.log("User already exists:", userCheckResponse.data.user_data);
-        }
-        else {
-          const response = await axios.post("http://localhost:5000/api/register", data);
-          if (response.status === 200) {
-            console.log("Registration successful:", response.data);
+          if(!usernameError) {
+             const formData = new FormData();
+            formData.append("username", data.username);
+            formData.append("password", data.password || "");
+            formData.append("confirm_password", data.confirm_password || "");
+            formData.append("email", data.email || "");
+            formData.append("contact_number", data.contact_number || "");
+            formData.append("address", data.address || "");
+            formData.append("gender", data.gender || "");
+            if (data.profile_image && data.profile_image.length > 0) {
+                    formData.append("profile_image", data.profile_image[0]);
+            }
+            console.log("Form Data: ", data);
+            let userSaveResponse = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/register`, formData, {
+                                            headers: {
+                                                    "Content-Type": "multipart/form-data",
+                                            },
+                                    });
+               if (userSaveResponse.data != null) {
+                                toast.success("User registered successfully!", { icon: '🎉' });
+                                console.log("User registered successfully:", userSaveResponse.data);
+                        } else {
+                                toast.error("Failed to save user.");
+                        }
+          } else {
+            toast.error(usernameError || "Username error");
+            reset();
+            return;
           }
-        }
 
       } catch (error) {
         setRegisterError("Registration failed. Please try again.");
@@ -49,6 +93,7 @@ export default function AuthForm() {
 
   return (
     <div className="auth-form-container">
+      <Toaster position="top-right" />
       <div className="auth-box">
         <h2>{isLogin ? "Login" : "Register"}</h2>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -59,8 +104,10 @@ export default function AuthForm() {
               type="text"
               placeholder="Your Username"
               {...register("username", { required: true })}
+              
             />
             {errors.username && <span className="error">Username is required</span>}
+            {usernameError && <span className="error">{usernameError}</span>}
           </div>
 
 

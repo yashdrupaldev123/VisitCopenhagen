@@ -12,7 +12,8 @@ let [siteSettings, setSiteSettings] = useState({
                 siteLogo: siteLogoImg,
                 primaryEmailId: 'yash@drupalchamp.org',
                 facebookUrl: '/',
-                instagramUrl: '/'
+                instagramUrl: '/',
+                'youtubeUrl': '/',
         });
 
 

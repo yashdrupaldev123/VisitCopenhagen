@@ -74,13 +74,12 @@ const BasicSiteSettings = () => {
         }, [savedSettings, reset]);
 
         const onSubmit = async (data) => {
-                console.log("Form data submitted:", data);
-                console.log("Form data submitted:", savedSettings);
                 const isUnchanged =
                         data.siteName === savedSettings.siteName &&
                         data.primaryEmailId === savedSettings.primaryEmailId &&
                         data.facebookUrl === savedSettings.facebookUrl &&
                         data.instagramUrl === savedSettings.instagramUrl &&
+                        data.youtubeUrl === savedSettings.youtubeUrl &&
                         (!data.siteLogo || data.siteLogo.length === 0); // no new file selected
 
                 if (isUnchanged) {
@@ -94,15 +93,19 @@ const BasicSiteSettings = () => {
                         formData.append("instagramUrl", data.instagramUrl || "");
                         formData.append("primaryEmailId", data.primaryEmailId || "");
                         if (data.siteLogo && data.siteLogo.length > 0) {
-                                formData.append("siteLogo", data.siteLogo[0]);
+                                formData.append("siteLogoUrl", data.siteLogo[0]);
                         } else {
-                                formData.append("siteLogo", logoPreview);
+                                formData.append("siteLogoUrl", logoPreview);
                         }
-                        let settingsSaveResponse = await axios.put('http://localhost:5000/api/addSettings', formData, {
+
+                        let settingsSaveResponse = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/addSettings`, formData, {
                                 headers: {
                                         "Content-Type": "multipart/form-data",
                                 },
                         });
+                        let savedSettingsData = await settingsSaveResponse.data;
+                        console.log("Settings saved data:", savedSettingsData);
+                        ;
                         if (settingsSaveResponse.data != null) {
                                 toast.success("Settings saved successfully!", { icon: '🎉' });
                                  setSiteSettings({
@@ -110,7 +113,8 @@ const BasicSiteSettings = () => {
                                         siteLogo: logoPreview || null,
                                         primaryEmailId: data.primaryEmailId || '',
                                         facebookUrl: data.facebookUrl || '',
-                                        instagramUrl: data.instagramUrl || ''
+                                        instagramUrl: data.instagramUrl || '',
+                                        youtubeUrl: data.youtubeUrl || ''
                                 });
                                 console.log("Settings saved in context:", settingsSaveResponse.data);
                         } else {
@@ -118,7 +122,7 @@ const BasicSiteSettings = () => {
                         }
                 } catch (error) {
                         toast.error("Error saving settings!");
-                        console.error("Error saving settings:", error);
+                        
                 }
         };
 

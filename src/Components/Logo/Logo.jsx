@@ -3,16 +3,15 @@ import './Logo.css'
 import logoImg from "../../assets/images/logo.svg"
 import { Link, useLocation } from 'react-router-dom'
 
-import { fetchSiteSettings } from '../../Utils/fetchSiteSettings.js';
 import logoImage from "../../assets/images/logo.svg";
 import { basicSettingsContext } from '../../App.jsx';
 const Logo = () => {
   
   let location = useLocation();
-  let [logoUrl, setLogoUrl] = React.useState(logoImage);
-  const { siteSettings } = useContext(basicSettingsContext);
-  const siteLogo = siteSettings.siteLogo || logoImage;
-  console.log(siteSettings);
+    const context = useContext(basicSettingsContext);
+    const siteSettings = context?.siteSettings || {};
+    const siteLogo = siteSettings.siteLogo || logoImage;
+    console.log("Site Logo:", siteSettings);
 
   return (
 

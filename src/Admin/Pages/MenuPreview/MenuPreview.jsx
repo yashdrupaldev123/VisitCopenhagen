@@ -9,7 +9,7 @@ const MenuPreview = ({ menuDataFromBackend, menuTitle, menuData, }) => {
     <div className='menu-preview'>
       <h3 className="heading text-center">Menu Preview</h3>
       
-      {(menuDataFromBackend.menuLinks.length == 1 && menuDataFromBackend.menuLinks[0].title=="") ? <h4>No Links.</h4>
+      {(menuDataFromBackend.menuLinks && menuDataFromBackend.menuLinks.length == 1 && menuDataFromBackend.menuLinks[0].title=="") ? <h4>No Links.</h4>
 
         :
         <>

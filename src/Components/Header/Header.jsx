@@ -22,8 +22,15 @@ const Header = () => {
                 async function getHeaderTopMenuLinks(menuKey){
                         try{
                                 let response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/menu?menuKey=${menuKey}`);
-                                let dataObj = response.data;
-                                setHeaderMenuTop(dataObj.data.menuLinks);
+                                let dataObj = await response.data;
+                                console.log("Header Top Menu Data: ", dataObj);
+                                console.log("length: ", dataObj.data.menuLinks.length);
+                                if(dataObj.data.menuLinks.length>0){
+                                        setHeaderMenuTop(dataObj.data.menuLinks);
+                                } else {
+                                        setHeaderMenuBottom(HeaderBottomMenuFallback);
+                                        setHeaderTopError("No Data Found");
+                                }
                         } 
                         catch(error){
                                 console.log(error.message);
@@ -33,8 +40,14 @@ const Header = () => {
                 async function getHeaderBottomMenuLinks(menuKey){
                         try{
                                 let response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/admin/menu?menuKey=${menuKey}`);
-                                let dataObj = response.data;
-                                setHeaderMenuBottom(dataObj.data.menuLinks);
+                                let dataObj = await response.data;
+                             
+                                if(dataObj.data.menuLinks.length > 0){
+                                        setHeaderMenuBottom(dataObj.data.menuLinks);
+                                } else {
+                                        setHeaderMenuBottom(HeaderBottomMenuFallback);
+                                        setHeaderBottomError("No Data Found");
+                                }
                         } 
                         catch(error){
                                 setHeaderBottomError(error.message);
@@ -43,6 +56,7 @@ const Header = () => {
                 getHeaderTopMenuLinks("Main Navigation Top")
                 getHeaderBottomMenuLinks("Main Navigation Bottom");
         },[])
+
 
 
         useEffect(() => {
@@ -135,8 +149,9 @@ const Header = () => {
                                                         <div className="header-top">
 
                                                                 { 
-                                                                        (headerTopError == "" || headerTopError != "") ? <Menu menulinks={HeaderTopMenuFallback} className="header-top-menu" />
-                                                                        : <Menu menulinks={headerMenuTop} className="header-top-menu" />
+                                                                        (headerMenuTop && headerMenuTop.length > 0) ? <Menu menulinks={headerMenuTop} className="header-top-menu" /> 
+                                                                        : <Menu menulinks={HeaderTopMenuFallback} className="header-top-menu" />
+                                                                    
                                                                 
                                                                 }
                                                         </div>
@@ -144,8 +159,8 @@ const Header = () => {
                                                                 <div className="row">
                                                                         <div className="col-sm-10">
                                                                                 {
-                                                                               (headerBottomError == "" || headerBottomError != "") ? <Menu menulinks={HeaderBottomMenuFallback} className="header-bottom-menu" />
-                                                                        : <Menu menulinks={headerMenuBottom} className="header-bottom-menu" />
+                                                                                (headerMenuBottom && headerMenuBottom.length > 0) ? <Menu menulinks={headerMenuBottom} className="header-bottom-menu" /> 
+                                                                        : <Menu menulinks={HeaderBottomMenuFallback} className="header-bottom-menu" />
                                                                                 }
                                                                         </div>
                                                                         <div className="col-sm-2 header-bottom-right">

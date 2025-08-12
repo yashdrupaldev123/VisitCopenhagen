@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchSiteSettings = async (siteKey = "VisitCopenhagen") => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/getSettings?siteKey=${siteKey}`);
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/getSettings?siteKey=${siteKey}`);
     if (response.data != null) {
       return {
         data: response.data.data,

@@ -17,11 +17,11 @@ import BasicSiteSettings from './Admin/Pages/BasicSiteSettings/BasicSiteSettings
 const Routes = ({ children }) => {
  
   const getMenuData = async(menuKey) =>{
-        const apiUrl = `http://localhost:5000/api/admin/menu?menuKey=${menuKey}`;
+        const apiUrl = `${import.meta.env.VITE_BACKEND_URL}/api/admin/menu?menuKey=${menuKey}`;
         const response = await axios.get(apiUrl);
         return response.data;
   }
-  
+
   let routes = createBrowserRouter([
     {
       path: '/',
