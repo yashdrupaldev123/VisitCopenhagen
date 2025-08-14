@@ -7,12 +7,16 @@ import ErrorPage from './Pages/ErrorPage/ErrorPage';
 import SearchResultPage from './Pages/SearchResultPage/SearchResultPage';
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard'
 import UserAccountPage from './Admin/Pages/UserAccountPage/UserAccountPage';
- 
+ import Logout from "./Pages/Logout"
+ import AdminRoute from "./Components/AdminRoute"
+ import AuthWrapper from "./Components/AuthWrapper"
 import MenuUpdate from './Admin/Pages/MenuUpdate/MenuUpdate';
 import axios from 'axios';
 import { ErrorBoundary } from 'react-error-boundary';
 import AuthForm from './Pages/AuthForm/AuthForm';
 import BasicSiteSettings from './Admin/Pages/BasicSiteSettings/BasicSiteSettings';
+import Dashboard from './Pages/Dashboard/Dashboard';
+import Users from './Admin/Pages/Users/Users';
  
 const Routes = ({ children }) => {
  
@@ -34,9 +38,16 @@ const Routes = ({ children }) => {
         },
         {
           path: '/login',
-          element: <AuthForm />,
+          element: <AuthWrapper><AuthForm /></AuthWrapper>,
         },
-         
+        {
+          path: '/logout',
+          element: <Logout/>,
+        },
+         {
+          path: '/user/:userId',
+          element: <UserAccountPage />,
+        },
         {
           path: '/search',
           element: <SearchResultPage />,
@@ -47,11 +58,15 @@ const Routes = ({ children }) => {
           children: [
             {
               index: true,
-              element: <UserAccountPage />,
+              element: <Dashboard />,
             },
               {
               path: 'dashboard',
-              element: <UserAccountPage />,
+              element: <Dashboard />,
+            },
+            {
+              path: 'users',
+              element: <Users />,
             },
             {
           path: 'basic-site-settings',

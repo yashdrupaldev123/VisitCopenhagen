@@ -40,7 +40,7 @@ const BasicSiteSettings = () => {
                 // Fetch existing settings if needed
                 const fetchSettings = async () => {
                         const { data, logoUrl, error } = await fetchSiteSettings();
-                        if(error) {
+                        if (error) {
                                 toast.error("Error fetching settings: " + error.message);
                         } else {
                                 reset({
@@ -58,7 +58,7 @@ const BasicSiteSettings = () => {
                                         facebookUrl: data.facebookUrl || '',
                                         instagramUrl: data.instagramUrl || ''
                                 });
-                               
+
                         }
                 };
 
@@ -70,7 +70,7 @@ const BasicSiteSettings = () => {
                 if (savedSettings && savedSettings.siteLogo) {
                         setLogoPreview(savedSettings.siteLogo);
                 }
-       
+
         }, [savedSettings, reset]);
 
         const onSubmit = async (data) => {
@@ -92,25 +92,37 @@ const BasicSiteSettings = () => {
                         formData.append("facebookUrl", data.facebookUrl || "");
                         formData.append("instagramUrl", data.instagramUrl || "");
                         formData.append("primaryEmailId", data.primaryEmailId || "");
-                        if (data.siteLogo && data.siteLogo.length > 0) {
+
+                        if (data.siteLogo) {
+                                // new file selected
                                 formData.append("siteLogoUrl", data.siteLogo[0]);
                         } else {
-                                formData.append("siteLogoUrl", logoPreview);
+                                formData.append("siteLogoUrl", null);
                         }
+
+
+                        formData.forEach((value, key) => {
+                                console.log(`${key}: ${value}`);
+                        });
 
                         let settingsSaveResponse = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/addSettings`, formData, {
                                 headers: {
                                         "Content-Type": "multipart/form-data",
                                 },
                         });
-                        let savedSettingsData = await settingsSaveResponse.data;
-                        console.log("Settings saved data:", savedSettingsData);
-                        ;
                         if (settingsSaveResponse.data != null) {
                                 toast.success("Settings saved successfully!", { icon: '🎉' });
-                                 setSiteSettings({
+                                let logoUrl = siteSettings.siteLogoUrl; // fallback to existing
+                                if (data.siteLogo && data.siteLogo.length > 0) {
+                                        // create temporary preview
+                                        logoUrl = URL.createObjectURL(data.siteLogo[0]);
+                                } else if (settingsSaveResponse.data.siteLogoUrl) {
+                                        // use backend-provided URL
+                                        logoUrl = settingsSaveResponse.data.siteLogoUrl;
+                                }
+                                setSiteSettings({
                                         siteName: data.siteName || '',
-                                        siteLogo: logoPreview || null,
+                                        siteLogoUrl: logoUrl || null,
                                         primaryEmailId: data.primaryEmailId || '',
                                         facebookUrl: data.facebookUrl || '',
                                         instagramUrl: data.instagramUrl || '',
@@ -122,7 +134,6 @@ const BasicSiteSettings = () => {
                         }
                 } catch (error) {
                         toast.error("Error saving settings!");
-                        
                 }
         };
 

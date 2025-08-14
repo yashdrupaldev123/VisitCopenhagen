@@ -8,15 +8,13 @@ import { basicSettingsContext } from '../../App.jsx';
 const Logo = () => {
   
   let location = useLocation();
-    const context = useContext(basicSettingsContext);
-    const siteSettings = context?.siteSettings || {};
-    const siteLogo = siteSettings.siteLogo || logoImage;
-    console.log("Site Logo:", siteSettings);
-
+    const basicSettingsContextObj = useContext(basicSettingsContext);
+      console.log(basicSettingsContextObj)
+    let siteSettings = basicSettingsContextObj.siteSettings;
+    console.log("Site Settings in Logo: ", siteSettings);
   return (
-
     <Link to={location.pathname.includes("admin") ? "/admin/dashboard" : "/"} className="site-logo">
-        <img src={siteLogo} alt="logo-img"/>
+        <img src={siteSettings.siteLogoUrl || logoImage} alt="logo-img"/>
     </Link>
   )
 }
